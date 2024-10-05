@@ -1,5 +1,5 @@
 CREATE TABLE public.NcClassification (
-    id UUID PRIMARY KEY,
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     color VARCHAR(50),
     "order" INTEGER,
@@ -7,7 +7,7 @@ CREATE TABLE public.NcClassification (
 );
 
 CREATE TABLE public.Survey (
-    id UUID PRIMARY KEY,
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     template BOOLEAN NOT NULL,
     name VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE public.Survey (
 );
 
 CREATE TABLE public.Question (
-    id UUID PRIMARY KEY,
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     description VARCHAR(450) NOT NULL,
     status INTEGER NOT NULL,
     responsible VARCHAR(255),
@@ -32,7 +32,7 @@ CREATE TABLE public.Question (
 );
 
 CREATE TABLE public.Nc (
-    id UUID PRIMARY KEY,
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     questionId UUID NOT NULL,
     finalResolutionDate DATE,
     lastResolutionDate DATE,
@@ -41,7 +41,7 @@ CREATE TABLE public.Nc (
 );
 
 CREATE TABLE public.Escalation (
-    id UUID PRIMARY KEY,
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     ncId UUID NOT NULL,
     date DATE NOT NULL,
     escalatedTo VARCHAR(255),
