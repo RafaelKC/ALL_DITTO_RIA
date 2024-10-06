@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
-@Entity('escalation')
+@Entity()
 export class Escalation {
     @PrimaryGeneratedColumn('uuid')
     public id: string;

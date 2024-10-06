@@ -1,8 +1,8 @@
 import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Question} from "@/entities/Question";
 
-@Entity('nc')
-export class Nc {
+@Entity()
+export class NonConformity {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 

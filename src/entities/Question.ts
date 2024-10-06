@@ -3,7 +3,7 @@ import {QuestionStatus} from "@/enums/QuestionStatus";
 import {Survey} from "@/entities/Survey";
 import {NcClassification} from "@/entities/NcClassification";
 
-@Entity('question')
+@Entity()
 export class Question {
     @PrimaryGeneratedColumn('uuid')
     public id: string;

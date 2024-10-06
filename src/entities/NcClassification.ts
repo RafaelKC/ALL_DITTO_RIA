@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
-@Entity('ncclassification')
+@Entity()
 export class NcClassification {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
@@ -20,4 +20,11 @@ export class NcClassification {
 
     @Column()
     public daysToResolve: number;
+
+    public update(classification: NcClassification): void {
+        this.name = classification.name;
+        this.color = classification.color;
+        this.order = classification.order;
+        this.daysToResolve = classification.daysToResolve;
+    }
 }

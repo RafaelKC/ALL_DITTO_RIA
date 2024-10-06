@@ -31,7 +31,7 @@ CREATE TABLE public.Question (
     CONSTRAINT fk_surveyId FOREIGN KEY (surveyId) REFERENCES public.Survey (id)
 );
 
-CREATE TABLE public.Nc (
+CREATE TABLE public.NonConformity (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     questionId UUID NOT NULL,
     finalResolutionDate DATE,
@@ -45,5 +45,5 @@ CREATE TABLE public.Escalation (
     ncId UUID NOT NULL,
     date DATE NOT NULL,
     escalatedTo VARCHAR(255),
-    CONSTRAINT fk_ncId FOREIGN KEY (ncId) REFERENCES public.Nc (id)
+    CONSTRAINT fk_ncId FOREIGN KEY (ncId) REFERENCES public.NonConformity (id)
 );

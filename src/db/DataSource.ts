@@ -2,12 +2,16 @@ import {DataSource, DefaultNamingStrategy, NamingStrategyInterface} from "typeor
 import {NcClassification} from "@/entities/NcClassification";
 import {Survey} from "@/entities/Survey";
 import {Question} from "@/entities/Question";
-import {Nc} from "@/entities/Nc";
+import {NonConformity} from "@/entities/NonConformity";
 import {Escalation} from "@/entities/Escalation";
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
-    columnName(propertyName: string, customName: string | undefined, embeddedPrefixes: string[]): string {
+    public columnName(propertyName: string, customName: string | undefined, embeddedPrefixes: string[]): string {
         return customName ? customName : propertyName.toLowerCase();
+    }
+
+    public tableName(entityName: string, customName: string | undefined): string {
+        return customName ? customName : entityName.toLowerCase();
     }
 }
 
@@ -20,7 +24,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: false,
     logging: true,
-    entities: [NcClassification, Survey, Question, Nc, Escalation],
+    entities: [NcClassification, Survey, Question, NonConformity, Escalation],
     subscribers: [],
     migrations: [],
     namingStrategy: new CustomNamingStrategy()
