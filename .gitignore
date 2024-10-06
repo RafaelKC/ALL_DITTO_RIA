@@ -2,3 +2,5 @@
 *.dev.*
 *.dev*
 *.dev
+
+/node_modules/
