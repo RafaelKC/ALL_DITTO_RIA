@@ -1,9 +1,5 @@
 import {DataSource, DefaultNamingStrategy, NamingStrategyInterface} from "typeorm";
-import {NcClassification} from "@/entities/NcClassification";
-import {Survey} from "@/entities/Survey";
-import {Question} from "@/entities/Question";
-import {NonConformity} from "@/entities/NonConformity";
-import {Escalation} from "@/entities/Escalation";
+import {Escalation, NcClassification, NonConformity, Question, Survey} from "@/entities/Entities";
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
     public columnName(propertyName: string, customName: string | undefined, embeddedPrefixes: string[]): string {
@@ -12,6 +8,10 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
 
     public tableName(entityName: string, customName: string | undefined): string {
         return customName ? customName : entityName.toLowerCase();
+    }
+
+    public joinColumnName(relationName: string, referencedColumnName: string): string {
+        return referencedColumnName.toLowerCase();
     }
 }
 

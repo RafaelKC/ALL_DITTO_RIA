@@ -10,7 +10,7 @@ CREATE TABLE public.Survey (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     template BOOLEAN NOT NULL,
     name VARCHAR(255) NOT NULL,
-    date DATE NOT NULL,
+    date DATE,
     responsible VARCHAR(255),
     objectName VARCHAR(255),
     objectUrl VARCHAR(255)
@@ -26,6 +26,7 @@ CREATE TABLE public.Question (
     ncClassificationId UUID,
     correctiveAction VARCHAR(450),
     surveyId UUID,
+    "order" INTEGER,
     artifact VARCHAR(255),
     CONSTRAINT fk_ncClassificationId FOREIGN KEY (ncClassificationId) REFERENCES public.NcClassification (id),
     CONSTRAINT fk_surveyId FOREIGN KEY (surveyId) REFERENCES public.Survey (id)

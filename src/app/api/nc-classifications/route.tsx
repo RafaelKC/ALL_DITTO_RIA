@@ -1,4 +1,4 @@
-import {NcClassification} from "@/entities/NcClassification";
+import {NcClassification} from "@/entities/Entities";
 import {initializeDataSource} from "@/db/DataSource";
 import {PagedResultDto} from "@/PagedResultDto";
 
