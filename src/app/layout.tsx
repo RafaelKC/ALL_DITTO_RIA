@@ -1,9 +1,10 @@
-import {useRouter} from "next/router";
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NextUIProvider} from "@nextui-org/react";
+import {ThemeProvider as NextThemesProvider} from "next-themes";
 import Link from "next/link";
+import React from "react";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -32,29 +33,38 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
         >
         <NextUIProvider>
-            <Navbar>
-                <NavbarBrand>
-                    <p className="font-bold text-inherit">All Ditto Ria</p>
-                </NavbarBrand>
-                <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                    <NavbarItem>
-                        <Link color="foreground" href="#">
-                            Questionários
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link href="#" aria-current="page">
-                            Templates
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link href="#" aria-current="page">
-                            Classificação de NC
-                        </Link>
-                    </NavbarItem>
-                </NavbarContent>
-            </Navbar>
-            {children}
+            <NextThemesProvider
+                defaultTheme="system"
+                attribute="class"
+                value={{
+                    light: 'light',
+                    dark: 'dark'
+                }}
+            >
+                <Navbar>
+                    <NavbarBrand>
+                        <p className="font-bold text-inherit">All Ditto Ria</p>
+                    </NavbarBrand>
+                    <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                        <NavbarItem>
+                            <Link color="foreground" href="#">
+                                Questionários
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link href="#" aria-current="page">
+                                Templates
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link href="#" aria-current="page">
+                                Classificação de NC
+                            </Link>
+                        </NavbarItem>
+                    </NavbarContent>
+                </Navbar>
+                {children}
+            </NextThemesProvider>
         </NextUIProvider>
         </body>
         </html>

@@ -4,6 +4,7 @@ import {PagedResultDto} from "@/PagedResultDto";
 import {Survey} from "@/entities/Entities";
 import {getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
@@ -12,7 +13,19 @@ export default function Home() {
     const columns = [
         {
             key: "name",
-            label: "Nome",
+            label: "Name",
+        },
+        {
+            key: "date",
+            label: "Date",
+        },
+        {
+            key: "responsible",
+            label: "Responsible",
+        },
+        {
+            key: "objectName",
+            label: "Object Name",
         }
     ];
 
@@ -36,7 +49,10 @@ export default function Home() {
                     <TableBody items={data?.items}>
                         {(item) => (
                             <TableRow key={item.id}>
-                                {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                                {(columnKey) => columnKey != "objectName"
+                                    ? (<TableCell>{getKeyValue(item, columnKey)}</TableCell>)
+                                    : (<TableCell><Link href={item.objectUrl ?? ""}>{getKeyValue(item, columnKey)}</Link></TableCell>)
+                                }
                             </TableRow>
                         )}
                     </TableBody>
