@@ -47,17 +47,17 @@ export default function RootLayout({
                     </NavbarBrand>
                     <NavbarContent className="hidden sm:flex gap-4" justify="center">
                         <NavbarItem>
-                            <Link color="foreground" href="#">
+                            <Link color="foreground" href="/">
                                 Questionários
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Link href="#" aria-current="page">
+                            <Link href="/templates" aria-current="page">
                                 Templates
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Link href="#" aria-current="page">
+                            <Link href="/classifications" aria-current="page">
                                 Classificação de NC
                             </Link>
                         </NavbarItem>
