@@ -67,7 +67,7 @@ export const TemplatesList: React.FC<TemplatesListProps> = ({ clickAction, hasDe
             case 'trash':
                 return (
                     <div className="relative flex justify-end items-center gap-2">
-                        <Button onClick={() => deleteSurveyOnAPI(item)} fullWidth={false} className="z-50" > <TrashIcon width={20} height={20} color={"#c41e3d"} />  </Button>
+                        <Button isIconOnly onClick={() => deleteSurveyOnAPI(item)} fullWidth={false} className="z-50" > <TrashIcon width={20} height={20} color={"#c41e3d"} />  </Button>
                     </div>
                 )
             default:

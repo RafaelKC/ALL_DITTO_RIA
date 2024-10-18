@@ -3,7 +3,7 @@
 import {PagedResultDto} from "@/PagedResultDto";
 import {Survey} from "@/entities/Entities";
 import {
-    Button,
+    Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger,
     getKeyValue,
     Table,
     TableBody,
@@ -20,6 +20,7 @@ import {useRouter} from "next/navigation";
 import {PlusIcon} from "@/components/PlusIcon";
 import {Loading} from "@/components/Lodding";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/modal";
+import {VerticalDotsIcon} from "@/components/VerticalDotsIcon";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
@@ -83,14 +84,21 @@ export default function Home() {
                             )}
                         </TableBody>
                     </Table>
-                    <Button
-                        className="bg-foreground text-background"
-                        endContent={<PlusIcon/>}
-                        size="sm"
-                        onClick={() => router.push('surveys/new')}
-                    >
-                        Add New
-                    </Button>
+                    <Dropdown className="bg-background border-1 border-default-200">
+                        <DropdownTrigger>
+                            <Button
+                                className="bg-foreground text-background"
+                                endContent={<PlusIcon/>}
+                                size="sm"
+                            >
+                                Add New
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu>
+                            <DropdownItem onClick={() => router.push('surveys/new')}>Empty</DropdownItem>
+                            <DropdownItem >From template</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </Loading>
             </main>
         </div>

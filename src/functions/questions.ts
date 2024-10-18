@@ -4,7 +4,7 @@ import {PagedResultDto} from "@/PagedResultDto";
 export async function getQuestions(surveyId: string | undefined = undefined): Promise<PagedResultDto<Question>> {
    let route = 'http://localhost:3000/api/questions';
    if (surveyId) {
-      route += `?survey=${surveyId}`;
+      route += `?surveyId=${surveyId}`;
    }
 
    return await fetch(route)
