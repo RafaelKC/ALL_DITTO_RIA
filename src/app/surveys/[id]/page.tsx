@@ -6,10 +6,6 @@ import {Survey} from "@/entities/Entities";
 import {getSurveyById} from "@/functions/surveys";
 import {SurveyComponent} from "@/app/surveys/[id]/SurveyForm";
 import {useRouter, useSearchParams} from "next/navigation";
-import {Tabs} from "@nextui-org/tabs";
-import {Card, CardBody} from "@nextui-org/card";
-import {Tab} from "@nextui-org/react";
-import Graph from "@/app/surveys/[id]/Graph";
 import {TabsSurvey} from "@/app/surveys/[id]/Tabs";
 
 interface SurveyProps {
@@ -58,7 +54,7 @@ export default function SurveyPage({params}: SurveyProps) {
                         <SurveyComponent updating={editing} survey={survey} reload={reload}></SurveyComponent> : <></>
                 }
                 {
-                    !editing || !survey ? <></> : <TabsSurvey surveysId={survey.id}/>
+                    !editing || !survey || survey.template ? <></> : <TabsSurvey surveysId={survey.id}/>
                 }
             </Loading>
         </main>
