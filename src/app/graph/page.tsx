@@ -53,7 +53,7 @@ export default function Graph() {
     };
 
     return (
-        <div className='flex items-center justify-evenly p-32'>
+        <div className='flex items-center justify-evenly p-32 text-black'>
             <div className='w-fit h-full flex flex-col items-center justify-evenly gap-10 '>
                 <div className='bg-gray-500 px-10 gap-4 py-5 rounded-2xl shadow-md w-full flex items-center justify-center flex-col' >
                     {
