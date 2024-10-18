@@ -2,14 +2,31 @@
 
 import {PagedResultDto} from "@/PagedResultDto";
 import {Survey} from "@/entities/Entities";
-import {getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
-import {useEffect, useState} from "react";
+import {
+    Button,
+    getKeyValue,
+    Table,
+    TableBody,
+    TableCell,
+    TableColumn,
+    TableHeader,
+    TableRow,
+    useDisclosure
+} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {format} from "date-fns";
+import {useRouter} from "next/navigation";
+import {PlusIcon} from "@/components/PlusIcon";
+import {Loading} from "@/components/Lodding";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/modal";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
     const [isLoading, setLoading] = useState(true)
+    const router = useRouter();
+
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     const columns = [
         {
@@ -39,31 +56,43 @@ export default function Home() {
             })
     }, [])
 
-  return (
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start min-w-full">
-            {isLoading ? (<h1>Loading..</h1>) : (
-                <Table aria-label="Example table with dynamic content">
-                    <TableHeader columns={columns}>
-                        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                    </TableHeader>
-                    <TableBody items={data?.items}>
-                        {(item) => (
-                            <TableRow key={item.id} onClick={() => { console.log("OIT") }} style={{ cursor: "pointer" }}>
-                                {(columnKey) => columnKey != "objectName"
-                                    ? (<TableCell><p>{
-                                        columnKey == 'date'
-                                            ? format(getKeyValue(item, columnKey), 'MM/dd/yyyy')
-                                            : getKeyValue(item, columnKey)
-                                    }</p></TableCell>)
-                                    : (<TableCell><Link className="link" href={item.objectUrl ?? ""}>{getKeyValue(item, columnKey)}</Link></TableCell>)
-                                }
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            )}
-        </main>
-      </div>
-  );
+    return (
+        <div
+            className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start min-w-full">
+                <Loading loaded={!isLoading}>
+                    <Table aria-label="Example table with dynamic content">
+                        <TableHeader columns={columns}>
+                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                        </TableHeader>
+                        <TableBody items={data?.items}>
+                            {(item) => (
+                                <TableRow key={item.id} onClick={() => {
+                                    router.push('surveys/' + item.id)
+                                }} className={"table-row"}>
+                                    {(columnKey) => columnKey != "objectName"
+                                        ? (<TableCell><p>{
+                                            columnKey == 'date'
+                                                ? format(getKeyValue(item, columnKey), 'MM/dd/yyyy')
+                                                : getKeyValue(item, columnKey)
+                                        }</p></TableCell>)
+                                        : (<TableCell><Link className="link"
+                                                            href={item.objectUrl ?? ""}>{getKeyValue(item, columnKey)}</Link></TableCell>)
+                                    }
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                    <Button
+                        className="bg-foreground text-background"
+                        endContent={<PlusIcon/>}
+                        size="sm"
+                        onClick={() => router.push('surveys/new')}
+                    >
+                        Add New
+                    </Button>
+                </Loading>
+            </main>
+        </div>
+    );
 }
