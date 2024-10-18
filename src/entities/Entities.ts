@@ -40,6 +40,15 @@ export class Survey {
         this.objectName = survey.objectName;
         this.objectUrl = survey.objectUrl;
     }
+
+    constructor(survey?: Survey) {
+        this.name = survey?.name ?? '';
+        this.date = survey?.date;
+        this.template = survey?.template ?? false;
+        this.responsible = survey?.responsible;
+        this.objectName = survey?.objectName;
+        this.objectUrl = survey?.objectUrl;
+    }
 }
 
 @Entity()
@@ -137,6 +146,19 @@ export class Question {
         this.surveyId = question.surveyId;
         this.order = question.order;
     }
+
+    constructor(question?: Question) {
+        this.description = question?.description ?? '';
+        this.status = QuestionStatus.Empty;
+        this.responsible = question?.responsible ?? '';
+        this.recurrence = question?.recurrence ?? false;
+        this.notes = question?.notes ?? '';
+        this.correctiveAction = question?.correctiveAction ?? '';
+        this.artifact = question?.artifact ?? '';
+        this.ncClassificationId = question?.ncClassificationId ?? '';
+        this.surveyId = question?.surveyId ?? '';
+        this.order = question?.order ?? 0;
+    }
 }
 @Entity()
 export class NonConformity {
@@ -154,7 +176,7 @@ export class NonConformity {
 
     @Column('uuid')
     public questionId: string;
-    @OneToOne(type => Question)
+    @OneToOne(_ => Question)
     @JoinColumn({ name: 'questionid' })
     public question: Question;
 

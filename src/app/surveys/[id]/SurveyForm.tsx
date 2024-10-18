@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Survey} from "@/entities/Entities";
 import {Button, DatePicker, Input} from "@nextui-org/react";
-import {CalendarDate, parseDate, ZonedDateTime} from "@internationalized/date";
+import {CalendarDate, parseDate, getLocalTimeZone} from "@internationalized/date";
 import {createSurvey, updateSurvey} from "@/functions/surveys";
 
 type SurveyFormProps = React.ComponentProps<'div'> & {
@@ -51,6 +51,7 @@ export const SurveyComponent: React.FC<SurveyFormProps> = ({survey, updating, re
 
         const surveyModel = {...survey} as Survey;
         surveyModel.name = name;
+        surveyModel.date = date?.toDate(getLocalTimeZone());
         surveyModel.objectName = objectName;
         surveyModel.objectUrl = objectUrl;
         surveyModel.responsible = responsible;

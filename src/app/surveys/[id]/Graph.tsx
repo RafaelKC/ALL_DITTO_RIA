@@ -25,7 +25,7 @@ type GraphProps = {
 export const Graph: React.FC<GraphProps> = ({questions}) => {
 
     let classifications = questions
-        .filter(q => q.ncClassification != null)
+        .filter(q => q.ncClassification != null && q.status == QuestionStatus.NotOk)
         .map((question) => question.ncClassification as NcClassification)
 
     classifications = classifications

@@ -21,8 +21,7 @@ export default function SurveyPage({params}: SurveyProps) {
 
     const reload = (s: Survey) => {
         if (!editing) router.push('/surveys/' + s.id);
-
-        setEditing(false);
+        setEditing(true);
         setSurvey(s);
     }
 

@@ -26,6 +26,11 @@ export async function createSurvey(survey: Survey): Promise<Survey | null> {
        .then(res =>  res.ok ? res.json() as unknown as Survey : null);
 }
 
+export async function createSurveyFromTemplate(templateId: string): Promise<Survey | null> {
+   return await fetch(`http://localhost:3000/api/surveys/${templateId}`, { method: 'POST' })
+       .then(res =>  res.ok ? res.json() as unknown as Survey : null);
+}
+
 export async function deleteSurvey(id: string): Promise<any> {
    return await fetch(`http://localhost:3000/api/surveys/${id}`, { method: 'DELETE' });
 }

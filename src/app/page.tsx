@@ -25,6 +25,7 @@ import {PlusIcon} from "@/components/PlusIcon";
 import {Loading} from "@/components/Lodding";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/modal";
 import {TemplatesList} from "@/components/TemplatesList";
+import {createSurveyFromTemplate} from "@/functions/surveys";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
@@ -111,7 +112,13 @@ export default function Home() {
                         <>
                             <ModalHeader className="flex flex-col gap-1">Select a template</ModalHeader>
                             <ModalBody>
-                                <TemplatesList clickAction={() => {}} />
+                                <TemplatesList clickAction={async (t) => {
+                                    const survey = await createSurveyFromTemplate(t.id)
+                                    onClose();
+                                    if (survey) {
+                                        router.push('surveys/' + survey.id)
+                                    }
+                                }} />
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
