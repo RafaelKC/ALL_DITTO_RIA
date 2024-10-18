@@ -3,7 +3,11 @@
 import {PagedResultDto} from "@/PagedResultDto";
 import {Survey} from "@/entities/Entities";
 import {
-    Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger,
+    Button,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
     getKeyValue,
     Table,
     TableBody,
@@ -20,13 +24,12 @@ import {useRouter} from "next/navigation";
 import {PlusIcon} from "@/components/PlusIcon";
 import {Loading} from "@/components/Lodding";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/modal";
-import {VerticalDotsIcon} from "@/components/VerticalDotsIcon";
+import {TemplatesList} from "@/components/TemplatesList";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
     const [isLoading, setLoading] = useState(true)
     const router = useRouter();
-
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     const columns = [
@@ -96,11 +99,29 @@ export default function Home() {
                         </DropdownTrigger>
                         <DropdownMenu>
                             <DropdownItem onClick={() => router.push('surveys/new')}>Empty</DropdownItem>
-                            <DropdownItem >From template</DropdownItem>
+                            <DropdownItem onClick={onOpen} >From template</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Loading>
             </main>
+
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Select a template</ModalHeader>
+                            <ModalBody>
+                                <TemplatesList clickAction={() => {}} />
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     );
 }
