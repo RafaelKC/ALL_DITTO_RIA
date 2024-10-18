@@ -1,11 +1,16 @@
 "use client";
 
 import {Loading} from "@/components/Lodding";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Survey} from "@/entities/Entities";
 import {getSurveyById} from "@/functions/surveys";
 import {SurveyComponent} from "@/app/surveys/[id]/SurveyForm";
 import {useRouter, useSearchParams} from "next/navigation";
+import {Tabs} from "@nextui-org/tabs";
+import {Card, CardBody} from "@nextui-org/card";
+import {Tab} from "@nextui-org/react";
+import Graph from "@/app/surveys/[id]/Graph";
+import {TabsSurvey} from "@/app/surveys/[id]/Tabs";
 
 interface SurveyProps {
     params: { id: string };
@@ -53,10 +58,7 @@ export default function SurveyPage({params}: SurveyProps) {
                         <SurveyComponent updating={editing} survey={survey} reload={reload}></SurveyComponent> : <></>
                 }
                 {
-                    !editing ? <></>
-                        : <>
-
-                        </>
+                    !editing || !survey ? <></> : <TabsSurvey surveysId={survey.id}/>
                 }
             </Loading>
         </main>
