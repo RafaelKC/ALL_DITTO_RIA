@@ -1,0 +1,7 @@
+.classification-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    border-radius: 9px;
+}

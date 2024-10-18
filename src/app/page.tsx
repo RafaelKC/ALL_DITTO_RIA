@@ -5,6 +5,7 @@ import {Survey} from "@/entities/Entities";
 import {getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
 import {useEffect, useState} from "react";
 import Link from "next/link";
+import {format} from "date-fns";
 
 export default function Home() {
     const [data, setData] = useState<PagedResultDto<Survey> | null>(null)
@@ -40,7 +41,7 @@ export default function Home() {
 
   return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start min-w-full">
             {isLoading ? (<h1>Loading..</h1>) : (
                 <Table aria-label="Example table with dynamic content">
                     <TableHeader columns={columns}>
@@ -48,10 +49,14 @@ export default function Home() {
                     </TableHeader>
                     <TableBody items={data?.items}>
                         {(item) => (
-                            <TableRow key={item.id}>
+                            <TableRow key={item.id} onClick={() => { console.log("OIT") }} style={{ cursor: "pointer" }}>
                                 {(columnKey) => columnKey != "objectName"
-                                    ? (<TableCell>{getKeyValue(item, columnKey)}</TableCell>)
-                                    : (<TableCell><Link href={item.objectUrl ?? ""}>{getKeyValue(item, columnKey)}</Link></TableCell>)
+                                    ? (<TableCell><p>{
+                                        columnKey == 'date'
+                                            ? format(getKeyValue(item, columnKey), 'MM/dd/yyyy')
+                                            : getKeyValue(item, columnKey)
+                                    }</p></TableCell>)
+                                    : (<TableCell><Link className="link" href={item.objectUrl ?? ""}>{getKeyValue(item, columnKey)}</Link></TableCell>)
                                 }
                             </TableRow>
                         )}
