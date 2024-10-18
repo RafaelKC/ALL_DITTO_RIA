@@ -30,7 +30,9 @@ body {
   text-decoration: underline;
 }
 
-.table-column {
-  width: 200px;
-  height: 200px;
+.table-row {
+  cursor: pointer;
+}
+.table-row:hover {
+  filter: brightness(0.3);
 }
