@@ -35,7 +35,9 @@ export const Graph: React.FC<GraphProps> = ({questions}) => {
     const labels = classifications.map(q => q.name);
     const colors = classifications.map(q => q.color);
 
-    const classificationsCount: { [key: string]: number } = questions.reduce((acc: { [key: string]: number }, item) => {
+    const classificationsCount: { [key: string]: number } = questions
+        .filter(q => q.ncClassification != null && q.status == QuestionStatus.NotOk)
+        .reduce((acc: { [key: string]: number }, item) => {
         if (item.ncClassificationId == undefined) return acc;
 
         if (!acc[item.ncClassificationId]) {
