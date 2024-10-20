@@ -24,7 +24,7 @@ export const questionsListsColumns = [
         label: "Recurrence",
     },
     {
-        key: 'ncClassification',
+        key: 'ncClassificationId',
         label: "Classification",
     },
     {

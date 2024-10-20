@@ -5,6 +5,7 @@ import {Tabs} from "@nextui-org/tabs";
 import {Question} from "@/entities/Entities";
 import {getQuestions} from "@/functions/questions";
 import {Loading} from "@/components/Lodding";
+import {QuestionList} from "@/app/surveys/[id]/questions/QuestionList";
 
 type TabsSurveyProps =  {
     surveysId: string;
@@ -31,6 +32,7 @@ export const TabsSurvey: React.FC<TabsSurveyProps> = ({ surveysId, ...props }) =
                     <Graph questions={questions}/>
                 </Tab>
                 <Tab key="questions" title="Questions" className="w-full">
+                    <QuestionList questions={questions} />
                 </Tab>
                 <Tab key="ncs" title="NCs" className="w-full">
                 </Tab>
