@@ -28,7 +28,9 @@ export async function GET(request: Request): Promise<Response> {
 
     let query = nonConformityRepository
         .createQueryBuilder('nonConformity')
-        .leftJoinAndSelect('nonConformity.question', 'question');
+        .leftJoinAndSelect('nonConformity.question', 'question')
+        .leftJoinAndSelect('nonConformity.escalations', 'escalations')
+        .leftJoinAndSelect('question.ncClassification', 'ncClassification');
 
     if (surveyId) {
         query = query.where('question.surveyId = :surveyId', { surveyId})

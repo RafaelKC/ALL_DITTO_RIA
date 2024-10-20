@@ -51,7 +51,7 @@ export const TabsSurvey: React.FC<TabsSurveyProps> = ({ surveysId, template, ...
                 {
                     template ? <></> : (
                         <Tab key="ncs" title="NCs" className="w-full">
-                            <NonConformityList ncs={ncs} ></NonConformityList>
+                            <NonConformityList ncs={ncs} setNcs={setNcs} ></NonConformityList>
                         </Tab>
                     )
                 }
