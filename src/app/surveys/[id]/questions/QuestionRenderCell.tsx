@@ -4,14 +4,15 @@ import {
     Checkbox,
     getKeyValue,
     Input,
-    Select, SelectedItemProps,
+    Select,
+    SelectedItemProps,
     SelectedItems,
     SelectItem,
     TableCell,
     Textarea,
     Tooltip
 } from "@nextui-org/react";
-import {NcClassification, Question} from "@/entities/Entities";
+import {NcClassification} from "@/entities/Entities";
 import {QuestionStatus} from "@/enums/QuestionStatus";
 import getBestContrastColor from "@/functions/getBestContrastColor";
 import {TrashIcon} from "@/components/TrashIcon";
@@ -19,6 +20,13 @@ import {QuestionRenderColumnInput} from "@/app/surveys/[id]/questions/QuestionRe
 
 export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX.Element = (props: QuestionRenderColumnInput) => {
     const cellValue = getKeyValue(props.item, props.columnKey);
+
+    const atualizar = (valor: any) => {
+        console.log(valor);
+        const item = { ...props.item } as any;
+        item[props.columnKey] = valor;
+        props.update(item);
+    }
 
     switch (props.columnKey) {
         case 'status':
@@ -31,6 +39,7 @@ export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX
                             placeholder=""
                             className="max-w-xs"
                             defaultSelectedKeys={[QuestionStatus[props.item.status]]}
+                            onChange={(q) => atualizar(QuestionStatus[q.target.value])}
                         >
                             {(status) => <SelectItem key={status.key}>{status.label}</SelectItem>}
                         </Select>
@@ -38,7 +47,7 @@ export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX
                 </TableCell>
             );
         case 'recurrence':
-            return <TableCell><Checkbox defaultSelected={cellValue}/></TableCell>;
+            return <TableCell><Checkbox onValueChange={(q) => atualizar(q)} defaultSelected={cellValue}/></TableCell>;
         case 'ncClassificationId':
             const classificationsOptions = getQuestionsOptions(props.classifications);
             return (
@@ -50,6 +59,7 @@ export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX
                             placeholder=""
                             className="max-w-xs"
                             defaultSelectedKeys={[cellValue]}
+                            onChange={(q) => atualizar(q.target.value)}
                             renderValue={(v: SelectedItems<SelectedItemProps<string>>) => <div
                                 className='p-1 rounded-md'
                                 style={{
@@ -73,12 +83,13 @@ export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX
         case 'correctiveAction':
         case 'responsible':
         case 'artifact':
-            return <TableCell><Tooltip content={cellValue}><Input value={cellValue}/></Tooltip></TableCell>;
+            return <TableCell><Tooltip content={cellValue}><Input onChange={(q) => atualizar(q.target.value)} value={cellValue}/></Tooltip></TableCell>;
         case 'description':
             return <TableCell><Tooltip content={cellValue}>
                 <Textarea
                     defaultValue={cellValue}
                     className="max-w-xs"
+                    onChange={(q) => atualizar(q.target.value)}
                 />
             </Tooltip></TableCell>;
         case 'notes':
@@ -86,6 +97,7 @@ export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX
                 <Textarea
                     defaultValue={cellValue}
                     className="w-full"
+                    onChange={(q) => atualizar(q.target.value)}
                 />
             </Tooltip></TableCell>;
         case 'deleteAction':

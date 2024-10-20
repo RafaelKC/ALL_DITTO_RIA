@@ -10,12 +10,12 @@ export async function getQuestions(surveyId: string | undefined = undefined): Pr
    return await fetch(route)
        .then((res) => res.json() as unknown as PagedResultDto<Question>);
 }
-//
-// export async function updateSurvey(id: string, survey: Survey): Promise<Survey | null> {
-//    return await fetch(`http://localhost:3000/api/surveys/${id}`, { method: 'PUT', body: JSON.stringify(survey) })
-//        .then(res =>  res.ok ? res.json() as unknown as Survey : null);
-// }
-//
+
+export async function updateQuestion(id: string, survey: Question): Promise<Question | null> {
+   return await fetch(`http://localhost:3000/api/questions/${id}`, { method: 'PUT', body: JSON.stringify(survey) })
+       .then(res =>  res.ok ? res.json() as unknown as Question : null);
+}
+
 export async function createQuestion(survey: Question): Promise<Question | null> {
    return await fetch(`http://localhost:3000/api/questions`, { method: 'POST', body: JSON.stringify(survey) })
        .then(res =>  res.ok ? res.json() as unknown as Question : null);

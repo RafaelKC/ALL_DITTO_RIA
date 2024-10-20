@@ -2,14 +2,14 @@
 
 import {NcClassification, Question} from "@/entities/Entities";
 import React, {useEffect, useState} from "react";
-import {Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
+import {Button, Table, TableBody, TableHeader, TableRow} from "@nextui-org/react";
 import {questionsListsColumns} from "@/app/surveys/[id]/questions/QuestionsListsColumns";
 import {QuestionRenderColumn} from "@/app/surveys/[id]/questions/QuestionRenderColumn";
 import {QuestionRenderCell} from "@/app/surveys/[id]/questions/QuestionRenderCell";
 import {Loading} from "@/components/Lodding";
 import {getNcClassificationsList} from "@/functions/classifcations";
 import {PlusIcon} from "@/components/PlusIcon";
-import {createQuestion, deleteQuestion} from "@/functions/questions";
+import {createQuestion, deleteQuestion, updateQuestion} from "@/functions/questions";
 import {v4 as uuidv4} from 'uuid';
 
 
@@ -32,12 +32,9 @@ export const QuestionList: React.FC<QuestionListProps> = ({questions, setQuestio
 
     const deleteQuestionOnApi = async (t: Question) => {
         await deleteQuestion(t.id);
-        console.log(questions)
         const nQuestions = questions.filter((q: Question) => q.id !== t.id);
-        console.log(nQuestions)
         setQuestions([ ...nQuestions ]);
         questions = nQuestions;
-        console.log(questions)
     }
 
     const adicionarQuestion = async () => {
@@ -52,9 +49,19 @@ export const QuestionList: React.FC<QuestionListProps> = ({questions, setQuestio
         if (novaQuestion) setQuestions([...questions, novaQuestion]);
     }
 
+    const updateQuestionOnApi = async (t: Question) => {
+        const question = await updateQuestion(t.id, t);
+        if (question) {
+            const nQuestions = [ ...questions ];
+            const index = nQuestions.findIndex(i => i.id === t.id);
+            nQuestions[index] = question;
+            setQuestions([...nQuestions]);
+        }
+    };
+
     return (
         <>
-            <div className="w-full flex justify-center py-2">
+            <div className="w-full flex justify-center  ">
                 <Loading loaded={loaded}>
                     {
                         questions.length <= 0 ? <h1>No data here</h1> : (<>
@@ -71,6 +78,9 @@ export const QuestionList: React.FC<QuestionListProps> = ({questions, setQuestio
                                                 classifications: classifications,
                                                 delete: (t) => {
                                                     deleteQuestionOnApi(t)
+                                                },
+                                                update: (t) => {
+                                                    updateQuestionOnApi(t)
                                                 }
                                             })}
                                         </TableRow>

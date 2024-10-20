@@ -5,5 +5,5 @@ export type QuestionRenderColumnInput = {
     columnKey: string,
     classifications: NcClassification[],
     delete: (item: Question) => void,
-    update?: (item: Question) => void,
+    update: (item: Question) => void,
 }
