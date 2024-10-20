@@ -16,13 +16,12 @@ import {NcClassification} from "@/entities/Entities";
 import {QuestionStatus} from "@/enums/QuestionStatus";
 import getBestContrastColor from "@/functions/getBestContrastColor";
 import {TrashIcon} from "@/components/TrashIcon";
-import {QuestionRenderColumnInput} from "@/app/surveys/[id]/questions/QuestionRenderColumnInput";
+import {QuestionRenderColumnInput} from "@/app/surveys/[id]/questions/QuestionRenderColumnInput"
 
 export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX.Element = (props: QuestionRenderColumnInput) => {
     const cellValue = getKeyValue(props.item, props.columnKey);
 
     const atualizar = (valor: any) => {
-        console.log(valor);
         const item = { ...props.item } as any;
         item[props.columnKey] = valor;
         props.update(item);

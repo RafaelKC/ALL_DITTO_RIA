@@ -155,7 +155,7 @@ export class Question {
         this.notes = question?.notes ?? '';
         this.correctiveAction = question?.correctiveAction ?? '';
         this.artifact = question?.artifact ?? '';
-        this.ncClassificationId = question?.ncClassificationId ?? '';
+        this.ncClassificationId = question?.ncClassificationId ?? undefined;
         this.surveyId = question?.surveyId ?? '';
         this.order = question?.order ?? 0;
     }
@@ -182,6 +182,10 @@ export class NonConformity {
 
     @OneToMany(() => Escalation, escalation => escalation.nonConformity)
     public escalations: Escalation[];
+
+    constructor() {
+        this.resolved = false;
+    }
 
     public update(nonConformity: NonConformity): void {
         this.finalResolutionDate = nonConformity.finalResolutionDate;

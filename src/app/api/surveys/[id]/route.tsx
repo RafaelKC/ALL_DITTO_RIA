@@ -68,8 +68,8 @@ export async function POST(request: Request): Promise<Response> {
         });
     }
 
-    survey.template = false;
     survey = surveyRepository.create(new Survey(survey));
+    survey.template = false;
     await surveyRepository.save(survey);
 
     const questionsRepository = dataSource.getRepository(Question);
@@ -77,11 +77,12 @@ export async function POST(request: Request): Promise<Response> {
 
     questions = await Promise.all(
         questions.map(async (question) => {
-            question.surveyId = survey.id;
-            return questionsRepository.create(new Question(question))
+            const nQuestion = new Question(question);
+            nQuestion.surveyId = survey.id;
+            return questionsRepository.create(nQuestion);
         })
     );
-    await surveyRepository.save(questions);
+    await questionsRepository.save(questions);
 
     return new Response(JSON.stringify(survey), {
         status: 200,

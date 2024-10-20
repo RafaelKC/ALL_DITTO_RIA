@@ -52,7 +52,7 @@ export const QuestionList: React.FC<QuestionListProps> = ({questions, setQuestio
     const updateQuestionOnApi = async (t: Question) => {
         const question = await updateQuestion(t.id, t);
         if (question) {
-            const nQuestions = [ ...questions ];
+            const nQuestions = [...questions];
             const index = nQuestions.findIndex(i => i.id === t.id);
             nQuestions[index] = question;
             setQuestions([...nQuestions]);
