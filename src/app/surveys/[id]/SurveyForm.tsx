@@ -11,7 +11,7 @@ type SurveyFormProps = React.ComponentProps<'div'> & {
 }
 
 export const SurveyComponent: React.FC<SurveyFormProps> = ({survey, updating, reload, ...props}) => {
-    const defaultDatetime = survey.date == null ? null : parseDate(survey.date.toString());
+    const defaultDatetime = survey.date == null ? null : parseDate(survey.date?.toString().split('T')[0]);
 
     const [name, setName] = useState<string>(survey.name ?? '');
     const [objectName, setObjectName] = useState<string>(survey.objectName ?? '');
@@ -36,7 +36,7 @@ export const SurveyComponent: React.FC<SurveyFormProps> = ({survey, updating, re
 
     const resetForm = (s: Survey) => {
         survey = s;
-        const defaultDatetime = survey.date == null ? null : parseDate(survey.date.toString());
+        const defaultDatetime = survey.date == null ? null : parseDate(survey.date?.toString().split('T')[0]);
 
         setName(survey.name);
         setObjectName(survey.objectName ?? '');
