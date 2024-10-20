@@ -1,18 +1,25 @@
+'use client'
+
 import {NcClassification, Question} from "@/entities/Entities";
 import React, {useEffect, useState} from "react";
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
+import {Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
 import {questionsListsColumns} from "@/app/surveys/[id]/questions/QuestionsListsColumns";
 import {QuestionRenderColumn} from "@/app/surveys/[id]/questions/QuestionRenderColumn";
 import {QuestionRenderCell} from "@/app/surveys/[id]/questions/QuestionRenderCell";
 import {Loading} from "@/components/Lodding";
 import {getNcClassificationsList} from "@/functions/classifcations";
+import {PlusIcon} from "@/components/PlusIcon";
+import {createQuestion, deleteQuestion} from "@/functions/questions";
+import {v4 as uuidv4} from 'uuid';
+
 
 type QuestionListProps = {
     questions: Question[];
+    surveyId: string;
+    setQuestions: (q: Question[]) => void;
 }
 
-export const QuestionList: React.FC<QuestionListProps> = ({ questions }: QuestionListProps) => {
-    const [question, setQuestion] = useState<Question[]>(questions);
+export const QuestionList: React.FC<QuestionListProps> = ({questions, setQuestions, surveyId, }: QuestionListProps) => {
     const [classifications, setClassifications] = useState<NcClassification[]>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -23,24 +30,65 @@ export const QuestionList: React.FC<QuestionListProps> = ({ questions }: Questio
         });
     }, []);
 
+    const deleteQuestionOnApi = async (t: Question) => {
+        await deleteQuestion(t.id);
+        console.log(questions)
+        const nQuestions = questions.filter((q: Question) => q.id !== t.id);
+        console.log(nQuestions)
+        setQuestions([ ...nQuestions ]);
+        questions = nQuestions;
+        console.log(questions)
+    }
+
+    const adicionarQuestion = async () => {
+        let novaQuestion: Question | null = {
+            surveyId: surveyId,
+            order: (questions[questions.length - 1]?.order ?? -1) + 1,
+            id: uuidv4(),
+            ncClassificationId: null,
+        } as Question;
+
+        novaQuestion = await createQuestion(novaQuestion);
+        if (novaQuestion) setQuestions([...questions, novaQuestion]);
+    }
+
     return (
-        <Loading loaded={loaded}>
-            {
-                questions.length  <= 0 ? <h1>No data here</h1> :  (<>
-                    <Table aria-label="Questions">
-                        <TableHeader columns={questionsListsColumns}>
-                            {(column) => QuestionRenderColumn(column.key, column.label)}
-                        </TableHeader>
-                        <TableBody items={question}>
-                            {(item) => (
-                                <TableRow key={item.id}>
-                                    {(columnKey) =>  QuestionRenderCell(item, columnKey.toString(), classifications) }
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </>)
-            }
-        </Loading>
+        <>
+            <div className="w-full flex justify-center py-2">
+                <Loading loaded={loaded}>
+                    {
+                        questions.length <= 0 ? <h1>No data here</h1> : (<>
+                            <Table aria-label="Questions">
+                                <TableHeader columns={questionsListsColumns}>
+                                    {(column) => QuestionRenderColumn(column.key, column.label)}
+                                </TableHeader>
+                                <TableBody items={questions}>
+                                    {(item) => (
+                                        <TableRow key={item.id}>
+                                            {(columnKey) => QuestionRenderCell({
+                                                item,
+                                                columnKey: columnKey.toString(),
+                                                classifications: classifications,
+                                                delete: (t) => {
+                                                    deleteQuestionOnApi(t)
+                                                }
+                                            })}
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </>)
+                    }
+                </Loading>
+            </div>
+            <Button
+                className="bg-foreground text-background"
+                endContent={<PlusIcon/>}
+                size="sm"
+                onClick={() => adicionarQuestion()}
+            >
+                Add New
+            </Button>
+        </>
     );
 }

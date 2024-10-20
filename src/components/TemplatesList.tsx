@@ -1,21 +1,9 @@
-import {NcClassification, Survey} from "@/entities/Entities";
+import {Survey} from "@/entities/Entities";
 import React, {useEffect, useState} from "react";
 import {PagedResultDto} from "@/PagedResultDto";
 import {Loading} from "@/components/Lodding";
-import {
-    Button,
-    Dropdown, DropdownItem, DropdownMenu, DropdownTrigger,
-    getKeyValue,
-    Table,
-    TableBody,
-    TableCell,
-    TableColumn,
-    TableHeader,
-    TableRow
-} from "@nextui-org/react";
+import {Button, getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
 import {deleteSurvey, getSurveysList} from "@/functions/surveys";
-import getBestContrastColor from "@/functions/getBestContrastColor";
-import {VerticalDotsIcon} from "@/components/VerticalDotsIcon";
 import {TrashIcon} from "@/components/TrashIcon";
 
 type TemplatesListProps = {

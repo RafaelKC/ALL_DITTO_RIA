@@ -19,6 +19,8 @@ export const QuestionRenderColumn = (columnKey: string, columnName: string) => {
             return <TableColumn width={30} key={columnKey}>{columnName}</TableColumn>;
         case 'artifact':
             return <TableColumn width={100} key={columnKey}>{columnName}</TableColumn>;
+        case 'deleteAction':
+            return <TableColumn width={30} key={columnKey}>{columnName}</TableColumn>;
         default:
             return <TableColumn key={columnKey}>{columnName}</TableColumn>;
     }

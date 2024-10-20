@@ -88,7 +88,10 @@ export const Graph: React.FC<GraphProps> = ({questions}) => {
                                 {
                                     labels.map((label, i) => (
                                         <div className='flex items-center gap-16 font-bold justify-between w-full'>
-                                            <p style={{backgroundColor: colors[i], color: getBestContrastColor(colors[i])}}
+                                            <p style={{
+                                                backgroundColor: colors[i],
+                                                color: getBestContrastColor(colors[i])
+                                            }}
                                                className="p-0.5 rounded-md w-4/5">{label}</p>
                                             <p className="w-1/5">{values[i]}</p>
                                         </div>
@@ -102,8 +105,11 @@ export const Graph: React.FC<GraphProps> = ({questions}) => {
 
                                 <div className='flex items-center gap-5 justify-between font-bold'>
                                     <p>Aderencia</p>
-                                    <p style={{backgroundColor: setColorAderencia(aderencia), color: getBestContrastColor(setColorAderencia(aderencia))}}
-                                       className="p-0.5 rounded-md w-4/5">{(aderencia.toFixed(2))}%</p>
+                                    <p style={{
+                                        backgroundColor: setColorAderencia(isNaN(aderencia) ? 0 : aderencia),
+                                        color: getBestContrastColor(setColorAderencia(isNaN(aderencia) ? 0 : aderencia))
+                                    }}
+                                       className="p-0.5 rounded-md w-4/5">{(isNaN(aderencia) ? 0 :  aderencia.toFixed(2))}%</p>
                                 </div>
 
                             </div>

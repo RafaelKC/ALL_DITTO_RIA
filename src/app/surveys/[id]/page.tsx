@@ -7,6 +7,7 @@ import {getSurveyById} from "@/functions/surveys";
 import {SurveyComponent} from "@/app/surveys/[id]/SurveyForm";
 import {useRouter, useSearchParams} from "next/navigation";
 import {TabsSurvey} from "@/app/surveys/[id]/Tabs";
+import {QuestionList} from "@/app/surveys/[id]/questions/QuestionList";
 
 interface SurveyProps {
     params: { id: string };
@@ -53,7 +54,7 @@ export default function SurveyPage({params}: SurveyProps) {
                         <SurveyComponent updating={editing} survey={survey} reload={reload}></SurveyComponent> : <></>
                 }
                 {
-                    !editing || !survey || survey.template ? <></> : <TabsSurvey surveysId={survey.id}/>
+                    !editing || !survey ? <></> : <TabsSurvey template={survey.template} surveysId={survey.id}/>
                 }
             </Loading>
         </main>

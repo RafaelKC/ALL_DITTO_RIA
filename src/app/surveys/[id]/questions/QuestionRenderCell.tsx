@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    Button,
     Checkbox,
     getKeyValue,
     Input,
@@ -13,21 +14,23 @@ import {
 import {NcClassification, Question} from "@/entities/Entities";
 import {QuestionStatus} from "@/enums/QuestionStatus";
 import getBestContrastColor from "@/functions/getBestContrastColor";
+import {TrashIcon} from "@/components/TrashIcon";
+import {QuestionRenderColumnInput} from "@/app/surveys/[id]/questions/QuestionRenderColumnInput";
 
-export const QuestionRenderCell = (item: Question, columnKey: string, classification: NcClassification[]) => {
-    const cellValue = getKeyValue(item, columnKey);
+export const QuestionRenderCell: (props: QuestionRenderColumnInput) => React.JSX.Element = (props: QuestionRenderColumnInput) => {
+    const cellValue = getKeyValue(props.item, props.columnKey);
 
-    switch (columnKey) {
+    switch (props.columnKey) {
         case 'status':
             return (
-                <TableCell >
-                    <Tooltip content={statusOptions.find(f => f.key == QuestionStatus[item.status])?.label}>
+                <TableCell>
+                    <Tooltip content={statusOptions.find(f => f.key == QuestionStatus[props.item.status])?.label}>
                         <Select
                             items={statusOptions}
                             label=""
                             placeholder=""
                             className="max-w-xs"
-                            defaultSelectedKeys={[QuestionStatus[item.status]]}
+                            defaultSelectedKeys={[QuestionStatus[props.item.status]]}
                         >
                             {(status) => <SelectItem key={status.key}>{status.label}</SelectItem>}
                         </Select>
@@ -37,10 +40,10 @@ export const QuestionRenderCell = (item: Question, columnKey: string, classifica
         case 'recurrence':
             return <TableCell><Checkbox defaultSelected={cellValue}/></TableCell>;
         case 'ncClassificationId':
-            const classificationsOptions = getQuestionsOptions(classification);
+            const classificationsOptions = getQuestionsOptions(props.classifications);
             return (
                 <TableCell>
-                    <Tooltip content={item.ncClassification?.name}>
+                    <Tooltip content={props.item.ncClassification?.name}>
                         <Select
                             items={classificationsOptions}
                             label=""
@@ -85,6 +88,23 @@ export const QuestionRenderCell = (item: Question, columnKey: string, classifica
                     className="w-full"
                 />
             </Tooltip></TableCell>;
+        case 'deleteAction':
+            return (
+                <TableCell>
+                    <Button
+                        isIconOnly
+                        fullWidth={false}
+                        className="z-50"
+                        onClick={() => props.delete(props.item)}
+                    >
+                        <TrashIcon
+                            width={20}
+                            height={20}
+                            color={"#c41e3d"}
+                        />
+                    </Button>
+                </TableCell>
+            )
         default:
             return <TableCell><p>{cellValue != null ? cellValue.toString() : ''}</p></TableCell>;
     }

@@ -9,9 +9,10 @@ import {QuestionList} from "@/app/surveys/[id]/questions/QuestionList";
 
 type TabsSurveyProps =  {
     surveysId: string;
+    template: boolean;
 }
 
-export const TabsSurvey: React.FC<TabsSurveyProps> = ({ surveysId, ...props }) => {
+export const TabsSurvey: React.FC<TabsSurveyProps> = ({ surveysId, template, ...props }) => {
     const [ questions, setQuestions ] = useState<Question[]>([]);
     const [ loaded, setLoaded ] = useState<boolean>(false);
 
@@ -28,14 +29,22 @@ export const TabsSurvey: React.FC<TabsSurveyProps> = ({ surveysId, ...props }) =
     return (
         <Loading loaded={loaded} >
             <Tabs aria-label="Options" {...props}>
-                <Tab key="Stats" title="Stats" className="w-full">
-                    <Graph questions={questions}/>
-                </Tab>
+                {
+                    template ? <></> : (
+                        <Tab key="Stats" title="Stats" className="w-full">
+                            <Graph questions={questions}/>
+                        </Tab>
+                    )
+                }
                 <Tab key="questions" title="Questions" className="w-full">
-                    <QuestionList questions={questions} />
+                    <QuestionList questions={questions} setQuestions={setQuestions} surveyId={surveysId} />
                 </Tab>
-                <Tab key="ncs" title="NCs" className="w-full">
-                </Tab>
+                {
+                    template ? <></> : (
+                        <Tab key="ncs" title="NCs" className="w-full">
+                        </Tab>
+                    )
+                }
             </Tabs>
         </Loading>
     )

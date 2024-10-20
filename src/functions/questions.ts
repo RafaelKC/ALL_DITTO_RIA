@@ -16,7 +16,11 @@ export async function getQuestions(surveyId: string | undefined = undefined): Pr
 //        .then(res =>  res.ok ? res.json() as unknown as Survey : null);
 // }
 //
-// export async function createSurvey(survey: Survey): Promise<Survey | null> {
-//    return await fetch(`http://localhost:3000/api/surveys`, { method: 'POST', body: JSON.stringify(survey) })
-//        .then(res =>  res.ok ? res.json() as unknown as Survey : null);
-// }
+export async function createQuestion(survey: Question): Promise<Question | null> {
+   return await fetch(`http://localhost:3000/api/questions`, { method: 'POST', body: JSON.stringify(survey) })
+       .then(res =>  res.ok ? res.json() as unknown as Question : null);
+}
+
+export async function deleteQuestion(id: string): Promise<any> {
+   return await fetch(`http://localhost:3000/api/questions/${id}`, { method: 'DELETE'});
+}

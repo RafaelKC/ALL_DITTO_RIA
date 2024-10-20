@@ -121,7 +121,7 @@ export class Question {
     public artifact: string;
 
     @Column('uuid')
-    public ncClassificationId?: string;
+    public ncClassificationId?: string | null;
     @ManyToOne(() => NcClassification)
     @JoinColumn({ name: 'ncclassificationid' })
     public ncClassification?: NcClassification;

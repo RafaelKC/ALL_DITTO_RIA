@@ -1,5 +1,9 @@
 export const questionsListsColumns = [
     {
+        key: 'deleteAction',
+        label: "Delete",
+    },
+    {
         key: 'order',
         label: "Order",
     },
